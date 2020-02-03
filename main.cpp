@@ -1,5 +1,6 @@
 /*
-
+main.cpp
+This program takes an input of an infix notation equation (the format most people 
  */
 #include <iostream>
 #include <cstring>
@@ -18,6 +19,8 @@ int main() {
 	for (int i = 0; i < strlen(in); i++) {
 		if (in[i] <= 39 ||
 		in[i] == 44) {
+			
+		}
     
 	}
 }
