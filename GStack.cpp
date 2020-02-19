@@ -19,7 +19,7 @@ void GStack::pop() {
 }
 
 void GStack::push_back(char* ele) {
-	if (len < maxLen) {
+	if (len < 100) {
 		GNode newHead;
 		newHead.ele = ele;
 		newHead.next = head;
@@ -34,14 +34,14 @@ char* GStack::peek() {
 }
 
 bool GStack::isEmpty() {
-	if (head->ele == "EMPTY")
+	if (strcpy(head->ele, "EMPTY") == 0)
 		return true;
 	else
 		return false;
 }
 
 bool GStack::isFull() {
-	if (len >= maxLen)
+	if (len >= 100)
 		return true;
 	else
 		return false;

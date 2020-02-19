@@ -44,7 +44,6 @@ class GStack {
 		
 	protected:
 		GNode* head;
-		const int maxLen = 100;
 		int len;
 };
 

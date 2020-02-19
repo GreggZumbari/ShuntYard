@@ -10,11 +10,10 @@ This program takes an input of an infix notation equation (the format most peopl
 using namespace std;
 
 int main() {
-	const int maxLen = 100;
 
 	//Initialize important variables
 	char in[10000];
-	char** parin = new char*[maxLen];
+	char** parin = new char*[100];
 	GStack stack;
   
 	//Grab that input
@@ -31,7 +30,7 @@ int main() {
 	"wasSpace" is true if the last char was a space
 	"isNum" is true if the current element is supposed to be a number
 	 */
-	char* temp = new char[maxLen];
+	char* temp = new char[100];
 	bool wasSpace = false;
 	bool isNum = true;
 	//Only allow numbers and operators
@@ -51,7 +50,7 @@ int main() {
 			cout << "New phrase: " << temp << endl;
 			parin[k] = temp;
 			
-			temp = new char[maxLen];
+			temp = new char[100];
 			wasSpace = true;
 			j = 0;
 			k++;
@@ -61,7 +60,7 @@ int main() {
 			cout << "New phrase: " << temp << endl;
 			parin[k] = temp;
 			
-			temp = new char[maxLen];
+			temp = new char[100];
 			j = 0;
 			k++;
 			
@@ -71,9 +70,14 @@ int main() {
 			wasSpace = true;
 		}
 	}
-	cout << "Parin: " /*<< (sizeof(parin) / sizeof(parin[0])) */ << endl;
-	if (!stack.isEmpty()) {
-		for (int i = 0; i < maxLen; i++) {
+	cout << "Parin: " << endl;
+	for (int i = 0; i < 100; i++) {
+		cout << parin[i] << endl;
+	}
+	
+	cout << "Stack: " << endl;
+	if (!stack.isFull()) {
+		for (int i = 0; i < 100; i++) {
 			//cout << parin[i] << endl;
 			stack.push_back(parin[i]);
 			cout << stack.peek() << endl;
