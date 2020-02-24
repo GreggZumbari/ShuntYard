@@ -28,17 +28,18 @@ int main() {
 	"j" is represents the current amount of chars since a space was seen
 	"k" is the iterator for parin
 	"wasSpace" is true if the last char was a space
-	"isNum" is true if the current element is supposed to be a number
 	 */
 	char* temp = new char[100];
 	bool wasSpace = false;
-	bool isNum = true;
+	int j = 0;
+	int k = 0;
 	//Only allow numbers and operators
-	for (int i, j, k = 0; i < strlen(in) + 1; i++) {
+	for (int i = 0; i < strlen(in) + 1; i++) {
 		//If is a number or operator
 		if ((in[i] >= 40 && 
 		in[i] <= 57) ||
 		in[i] == 61) {
+			cout << "In: " << in[i] << endl;
 			//cout << "Number/Operator: " << in[i] << endl;
 			temp[j] = in[i];
 			
@@ -71,16 +72,14 @@ int main() {
 		}
 	}
 	cout << "Parin: " << endl;
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < k; i++) {
 		cout << parin[i] << endl;
 	}
 	
 	cout << "Stack: " << endl;
-	if (!stack.isFull()) {
-		for (int i = 0; i < 100; i++) {
-			//cout << parin[i] << endl;
-			stack.push_back(parin[i]);
-			cout << stack.peek() << endl;
-		}
+	for (int i = 0; i < k; i++) {
+		//cout << parin[i] << endl;
+		stack.push_back(parin[i]);
+		cout << stack.peek() << endl;
 	}
 }

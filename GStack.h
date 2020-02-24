@@ -17,12 +17,6 @@ peek(): returns a pointer to the item at the top of the stack
 struct GNode {
 	char* ele;
 	GNode* next;
-	
-	GNode() {
-		ele = new char[100];
-		strcpy(ele, "EMPTY");
-		next = NULL;
-	}
 };
 
 class GStack {
@@ -37,10 +31,6 @@ class GStack {
 		void push_back(char* ele);
 		//Returns the char* component of the element at the top of the stack
 		char* peek();
-		//Returns true if stack is empty
-		bool isEmpty();
-		//Returns true if stack is full
-		bool isFull();
 		
 	protected:
 		GNode* head;

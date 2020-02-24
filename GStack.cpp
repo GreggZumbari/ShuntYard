@@ -4,14 +4,12 @@
 
 //Constructor
 GStack::GStack() {
-	head = NULL;
 	len = 0;
 }
 
 //Desconstructor
-GStack::~GStack() {
-	delete head;
-}
+GStack::~GStack() {}
+
 
 void GStack::pop() {
 	head = head->next;
@@ -23,7 +21,6 @@ void GStack::push_back(char* ele) {
 		GNode newHead;
 		newHead.ele = ele;
 		newHead.next = head;
-		delete head;
 		head = &newHead;
 		len++;
 	}
@@ -32,22 +29,6 @@ void GStack::push_back(char* ele) {
 char* GStack::peek() {
 	return head->ele;
 }
-
-bool GStack::isEmpty() {
-	if (strcpy(head->ele, "EMPTY") == 0)
-		return true;
-	else
-		return false;
-}
-
-bool GStack::isFull() {
-	if (len >= 100)
-		return true;
-	else
-		return false;
-}
-
-
 
 
 
