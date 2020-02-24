@@ -4,6 +4,8 @@
 
 //Constructor
 GStack::GStack() {
+	head = new GNode();
+	strcpy(head->ele, "HEAD");
 	len = 0;
 }
 
@@ -20,23 +22,21 @@ void GStack::pop() {
 
 void GStack::push_back(char* ele) {
 	if (len < MAXLEN) {
-		GNode* newHead;
-		GNode next;
+		GNode* newHead = new GNode();
 		
-		//Grab head by reference...
-		next = *head;
 		//Then stick it into the "next" of newHead
-		newHead->next = &next;
-		//Then finally insert the element
-		newHead->ele = ele;
+		newHead->next = head;
+		//Insert the element
+		strcpy(newHead->ele, ele);
+		//newHead->ele = ele;
 		
+		//Replace head with newHead
+		head = newHead;
 		len++;
 	}
 }
 
 char* GStack::peek() {
+	//cout << "Peek: " << head->ele << endl;
 	return head->ele;
 }
-
-
-
