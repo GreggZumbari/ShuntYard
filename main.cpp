@@ -9,7 +9,7 @@ This program takes an input of an infix notation equation (the format most peopl
 #include <cstring>
 
 #include "GStack.h"
-#include "GQueue.h"
+//#include "GQueue.h"
 
 using namespace std;
 
@@ -40,6 +40,7 @@ int main() {
 	"i" is the iterator for the input
 	"j" is represents the current amount of chars since a space was seen
 	"wasSpace" is true if the last char was a space
+	"wasNum" is true if the last or current char is a number
 	"wasOp" is true if the last or current char is an operator
 	"lastOp" is true if the last token was an operator
 	"openPend" is true if there is a pending open brace
@@ -47,8 +48,9 @@ int main() {
 	
 	char* temp = new char[MAXLEN];
 	bool wasSpace = false;
+	bool wasNum = false;
 	bool wasOp = false;
-	bool lastOp = true; //Starting with this as true solves some issues with the very first character being registered correctly
+	bool lastOp = true; //Starting with this as true solves some issues with the very first element being registered correctly
 	bool openPend = false;
 	int j = 0;
 	int k = 0;
@@ -64,11 +66,13 @@ int main() {
 		//If is a number
 		if (in[i] >= 48 && in[i] <= 57) {
 			//cout << "Number, ";
-			//If last element or token was an operator, ignore the rest of the phrase
-			if (!wasOp && lastOp) {
+			//If last element was an operator or if the last token was a number, ignore the rest of the phrase.
+			if (!wasOp && 
+			((lastOp || wasNum) || (lastOp && wasNum))) {
 				//Add in[i] to temp
 				//cout << "Was not op, ";
 				wasSpace = false;
+				wasNum = true;
 				lastOp = false;
 				temp[j] = in[i];
 				j++;
@@ -94,11 +98,11 @@ int main() {
 		//If is a parenthesis
 		else if (in[i] == 40 ||
 		in[i] == 41) {
-			cout << "Parenthesis, ";
+			//cout << "Parenthesis, ";
 			
 			//Must be after another operator, but not in the same phrase
 			if (lastOp && in[i] == 40) {
-				cout << "Open brace, ";
+				//cout << "Open brace, ";
 				
 				wasSpace = false;
 				openPend = true;
@@ -110,8 +114,8 @@ int main() {
 			}
 			//If a close brace, it can occur anyplace on its own after an open brace, unless the last token was an operator
 			else if (wasSpace && !wasOp && openPend) {
-				cout << "Last was op, ";
-				cout << "Was space, ";
+				//cout << "Last was op, ";
+				//cout << "Was space, ";
 				
 				wasSpace = false;
 				openPend = false;
@@ -124,15 +128,14 @@ int main() {
 		}
 		//If is a space and the previous one was not a space
 		else if (in[i] == 32 && wasSpace == false) {
-			//cout << "Space" << endl;
-			//cout << "New phrase: " << temp << endl;
+			//cout << "Space" << endl << "New phrase: " << temp << endl;
+			
+			stack.push_back(temp);
 			
 			//Append temp to the end of parin
-			//strcat(parin, temp);
-			stack.push_back(temp);
-						
+			//strcat(parin, temp);			
 			//Add a space at the end for viewing purposes
-			strcat(parin, " ");
+			//strcat(parin, " ");
 			
 			//Clear temp
 			for (int i = 0; i < MAXLEN; i++)
@@ -163,7 +166,7 @@ int main() {
 			
 			break;
 		}
-		cout << endl;
+		//cout << endl;
 	}
 	
 	//cout << "Parin: " << endl;
