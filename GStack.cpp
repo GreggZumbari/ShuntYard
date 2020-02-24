@@ -12,16 +12,24 @@ GStack::~GStack() {}
 
 
 void GStack::pop() {
-	head = head->next;
-	len--;
+	if (len > 0) {
+		head = head->next;
+		len--;
+	}
 }
 
 void GStack::push_back(char* ele) {
-	if (len < 100) {
-		GNode newHead;
-		newHead.ele = ele;
-		newHead.next = head;
-		head = &newHead;
+	if (len < MAXLEN) {
+		GNode* newHead;
+		GNode next;
+		
+		//Grab head by reference...
+		next = *head;
+		//Then stick it into the "next" of newHead
+		newHead->next = &next;
+		//Then finally insert the element
+		newHead->ele = ele;
+		
 		len++;
 	}
 }

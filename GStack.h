@@ -5,7 +5,7 @@ Contains the classes:
 pop(): removes the item at the top of the stack
 push_back(): adds an item to the end of the stack
 peek(): returns a pointer to the item at the top of the stack
-@author Greggory Hickman, January 2020
+@author Greggory Hickman, January-Febuary 2020
 @version dev
  */
 #ifndef GSTACK_H
@@ -13,6 +13,8 @@ peek(): returns a pointer to the item at the top of the stack
 
 #include <iostream>
 #include <cstring>
+
+#define MAXLEN 10000
 
 struct GNode {
 	char* ele;
@@ -32,7 +34,7 @@ class GStack {
 		//Returns the char* component of the element at the top of the stack
 		char* peek();
 		
-	protected:
+	private:
 		GNode* head;
 		int len;
 };
