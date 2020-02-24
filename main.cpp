@@ -1,14 +1,15 @@
 /*
 main.cpp
-This program takes an input of an infix notation equation (the format most people understand)
+This program takes an input of an infix notation equation (the format most people understand), and converts it to postfix notation. Then, it will convert to then output either infix, postfix, or prefix notation.
 
-@author Greggory Hickman, January-Febuary 2020
+@author Greggory Hickman, January-February 2020
 @version dev
  */
 #include <iostream>
 #include <cstring>
 
 #include "GStack.h"
+#include "GQueue.h"
 
 using namespace std;
 

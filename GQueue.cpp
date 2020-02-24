@@ -1,26 +1,26 @@
 //GQueue.cpp
 
-#include "GStack.h"
+#include "GQueue.h"
 
 //Constructor
-GStack::GStack() {
+GQueue::GQueue() {
 	head = new GNode();
-	strcpy(head->ele, "HEAD");
+	strcpy(head->ele, "TAIL");
 	len = 0;
 }
 
 //Desconstructor
-GStack::~GStack() {}
+GQueue::~GQueue() {}
 
 
-void GStack::pop() {
+void GQueue::pop() {
 	if (len > 0) {
 		head = head->next;
 		len--;
 	}
 }
 
-void GStack::push_back(char* ele) {
+void GQueue::enqueue(char*) {
 	if (len < MAXLEN) {
 		GNode* newHead = new GNode();
 		
@@ -36,7 +36,23 @@ void GStack::push_back(char* ele) {
 	}
 }
 
-char* GStack::peek() {
+void GQueue::push_back(char* ele) {
+	if (len < MAXLEN) {
+		GNode* newHead = new GNode();
+		
+		//Then stick it into the "next" of newHead
+		newHead->next = head;
+		//Insert the element
+		strcpy(newHead->ele, ele);
+		//newHead->ele = ele;
+		
+		//Replace head with newHead
+		head = newHead;
+		len++;
+	}
+}
+
+char* GQueue::peek() {
 	//cout << "Peek: " << head->ele << endl;
 	return head->ele;
 }
