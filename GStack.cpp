@@ -27,7 +27,7 @@ void GStack::push_back(char* ele) {
 		//Then stick it into the "next" of newHead
 		newHead->next = head;
 		//Insert the element
-		strcpy(newHead->ele, ele); //Credit to Barton Hickman for fixing a bug that used to exist right here
+		strcpy(newHead->ele, ele); //Credit to Barton Hickman (my Dad) for fixing a minor error that used to exist right here
 		//newHead->ele = ele;
 		
 		//Replace head with newHead

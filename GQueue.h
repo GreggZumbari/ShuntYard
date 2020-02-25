@@ -17,15 +17,6 @@ char* dequeue() - Returns the element at the front of the queue, and also gets r
 
 using namespace std;
 
-struct GNode {
-	char* ele;
-	GNode* next;
-	
-	GNode() {
-		ele = new char[MAXLEN];
-	};
-};
-
 class GQueue {
 	public:
 		//Constructor & Destructor
@@ -38,7 +29,16 @@ class GQueue {
 		char* dequeue();
 		
 	private:
-		GNode* tail;
+		struct GNode {
+			char* ele;
+			GNode* next;
+	
+			GNode() {
+				ele = new char[MAXLEN];
+			};
+		};
+		
+		GNode* front;
 		int len;
 };
 

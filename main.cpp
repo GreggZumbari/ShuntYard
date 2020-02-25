@@ -1,6 +1,6 @@
 /*
 main.cpp
-This program takes an input of an infix notation equation (the format most people understand), and converts it to postfix notation. Then, it will convert to then output either infix, postfix, or prefix notation.
+This program takes an input of an infix notation equation (the format most people understand), and converts it to postfix notation. Then, it will convert to then output either infix, postfix, or prefix notation, based on what the user wants.
 
 @author Greggory Hickman, January-February 2020
 @version dev
@@ -9,7 +9,7 @@ This program takes an input of an infix notation equation (the format most peopl
 #include <cstring>
 
 #include "GStack.h"
-//#include "GQueue.h"
+#include "GQueue.h"
 
 using namespace std;
 
@@ -19,6 +19,7 @@ int main() {
 	char* in = new char[MAXLEN];
 	char* parin = new char[MAXLEN];
 	GStack stack;
+	GQueue queue;
 	
 	//Clear in and parin
 	for (int i = 0; i < MAXLEN; i++) {
@@ -40,7 +41,7 @@ int main() {
 	"i" is the iterator for the input
 	"j" is represents the current amount of chars since a space was seen
 	"wasSpace" is true if the last char was a space
-	"wasNum" is true if the last or current char is a number
+	"isNum" is true if the current token is a number
 	"wasOp" is true if the last or current char is an operator
 	"lastOp" is true if the last token was an operator
 	"openPend" is true if there is a pending open brace
@@ -48,7 +49,7 @@ int main() {
 	
 	char* temp = new char[MAXLEN];
 	bool wasSpace = false;
-	bool wasNum = false;
+	bool isNum = false;
 	bool wasOp = false;
 	bool lastOp = true; //Starting with this as true solves some issues with the very first element being registered correctly
 	bool openPend = false;
@@ -67,13 +68,12 @@ int main() {
 		if (in[i] >= 48 && in[i] <= 57) {
 			//cout << "Number, ";
 			//If last element was an operator or if the last token was a number, ignore the rest of the phrase.
-			if (!wasOp && 
-			((lastOp || wasNum) || (lastOp && wasNum))) {
+			if (!wasOp && (isNum || lastOp)) {
 				//Add in[i] to temp
 				//cout << "Was not op, ";
 				wasSpace = false;
-				wasNum = true;
 				lastOp = false;
+				isNum = true;
 				temp[j] = in[i];
 				j++;
 			}
@@ -90,6 +90,7 @@ int main() {
 				wasSpace = false;
 				wasOp = true;
 				lastOp = true;
+				isNum = false;
 				//Add in[i] to temp
 				temp[j] = in[i];
 				j++;
@@ -107,6 +108,7 @@ int main() {
 				wasSpace = false;
 				openPend = true;
 				wasOp = true;
+				isNum = false;
 				
 				//Add in[i] to temp
 				temp[j] = in[i];
@@ -120,6 +122,7 @@ int main() {
 				wasSpace = false;
 				openPend = false;
 				wasOp = true;
+				isNum = false;
 				
 				//Add in[i] to temp
 				temp[j] = in[i];
@@ -131,6 +134,7 @@ int main() {
 			//cout << "Space" << endl << "New phrase: " << temp << endl;
 			
 			stack.push_back(temp);
+			queue.enqueue(temp);
 			
 			//Append temp to the end of parin
 			//strcat(parin, temp);			
@@ -143,6 +147,7 @@ int main() {
 			
 			wasOp = false;
 			wasSpace = true;
+			isNum = false;
 			j = 0;
 			k++;
 			
@@ -156,6 +161,7 @@ int main() {
 			//strcat(parin, temp);
 			//strcat(parin, " ");
 			stack.push_back(temp);
+			queue.enqueue(temp);
 			
 			//Clear temp
 			for (int i = 0; i < MAXLEN; i++)
@@ -171,13 +177,22 @@ int main() {
 	
 	//cout << "Parin: " << endl;
 	//cout << parin << endl;
+	//cout << endl;
 	
 	cout << "Stack: " << endl;
 	for (int i = 0; i < k; i++) {
 		cout << stack.peek() << endl;
 		stack.pop();
 	}
+	cout << endl;
+	
+	cout << "Queue: " << endl;
+	for (int i = 0; i < k; i++) {
+		cout << queue.dequeue() << endl;
+	}
 }
+
+GQueue
 
 //We do not speak of the code past this point
 /*

@@ -4,55 +4,62 @@
 
 //Constructor
 GQueue::GQueue() {
-	head = new GNode();
-	strcpy(head->ele, "TAIL");
+	front = new GNode();
+	strcpy(front->ele, "FRONT");
 	len = 0;
 }
 
 //Desconstructor
 GQueue::~GQueue() {}
 
-
-void GQueue::pop() {
-	if (len > 0) {
-		head = head->next;
-		len--;
-	}
-}
-
-void GQueue::enqueue(char*) {
+void GQueue::enqueue(char* ele) {
 	if (len < MAXLEN) {
-		GNode* newHead = new GNode();
+		GNode* current = front;
 		
-		//Then stick it into the "next" of newHead
-		newHead->next = head;
-		//Insert the element
-		strcpy(newHead->ele, ele);
-		//newHead->ele = ele;
+		//cout << "Len: " << len << endl;
+		//cout << "Current Beginning: " << current->ele << endl;
 		
-		//Replace head with newHead
-		head = newHead;
+		//Go through the linked list until we get to the end
+		for (int i = 0; i < len + 1; i++) {
+			
+			//If we are at the end of the linked list
+			if (i == len) {
+				//Create the GNode to hold the element
+				GNode* newTail = new GNode();
+				strcpy(newTail->ele, ele);
+				
+				//Stick it onto the end
+				current->next = newTail;
+				//cout << "newTail: " << current->ele << endl;
+			}
+			
+			//Iterate to next GNode
+			current = current->next;
+			
+			//cout << "Current After: " << current->ele << endl;
+			//cout << "Next: " << current->next->ele << endl << endl;
+		}
+		
+		//cout << "Final Current: " << current->ele << endl << endl;
 		len++;
 	}
 }
 
-void GQueue::push_back(char* ele) {
-	if (len < MAXLEN) {
-		GNode* newHead = new GNode();
+char* GQueue::dequeue() {
+	if (front->next != NULL) {
+		//Grab a copy of the current first in queue for later.
+		GNode current = *front->next;
+		//cout << "Len: " << len << endl;
+		if (len >= 0) {
+			//Grab the second in queue
+			GNode* newFront = front->next;
+			//Move it up to the first in queue
+			front = newFront;
+			len--;
+		}
 		
-		//Then stick it into the "next" of newHead
-		newHead->next = head;
-		//Insert the element
-		strcpy(newHead->ele, ele);
-		//newHead->ele = ele;
-		
-		//Replace head with newHead
-		head = newHead;
-		len++;
+		//Return the copied ex-first in queue
+		return current.ele;
 	}
-}
-
-char* GQueue::peek() {
-	//cout << "Peek: " << head->ele << endl;
-	return head->ele;
+	return NULL;
 }

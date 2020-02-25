@@ -18,15 +18,6 @@ peek(): Returns a pointer to the item at the top of the stack
 
 using namespace std;
 
-struct GNode {
-	char* ele;
-	GNode* next;
-	
-	GNode() {
-		ele = new char[MAXLEN];
-	};
-};
-
 class GStack {
 	public:
 		//Constructor & Destructor
@@ -41,6 +32,15 @@ class GStack {
 		char* peek();
 		
 	private:
+		struct GNode {
+			char* ele;
+			GNode* next;
+	
+			GNode() {
+				ele = new char[MAXLEN];
+			};
+		};
+		
 		GNode* head;
 		int len;
 };
