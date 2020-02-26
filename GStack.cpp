@@ -5,7 +5,6 @@
 //Constructor
 GStack::GStack() {
 	head = new GNode();
-	strcpy(head->ele, "HEAD");
 	len = 0;
 }
 

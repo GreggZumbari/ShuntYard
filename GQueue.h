@@ -10,12 +10,9 @@ char* dequeue() - Returns the element at the front of the queue, and also gets r
 #ifndef GQUEUE_H
 #define GQUEUE_H
 
-#include <iostream>
 #include <cstring>
 
 #define MAXLEN 10000
-
-using namespace std;
 
 class GQueue {
 	public:
@@ -28,13 +25,14 @@ class GQueue {
 		//Get, and then DESTROY an element
 		char* dequeue();
 		
-	private:
+	protected:
 		struct GNode {
 			char* ele;
 			GNode* next;
 	
 			GNode() {
 				ele = new char[MAXLEN];
+				ele[0] = '\0';
 			};
 		};
 		

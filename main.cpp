@@ -2,6 +2,8 @@
 main.cpp
 This program takes an input of an infix notation equation (the format most people understand), and converts it to postfix notation. Then, it will convert to then output either infix, postfix, or prefix notation, based on what the user wants.
 
+char* infixToPostfix(char*) - Input a GQueue containing an infix notation math term, each element queued separately, and output the postfix version of that math term, also in GQueue form.
+
 @author Greggory Hickman, January-February 2020
 @version dev
  */
@@ -13,12 +15,14 @@ This program takes an input of an infix notation equation (the format most peopl
 
 using namespace std;
 
+GQueue infixToPostfix(GQueue);
+
 int main() {
 
 	//Initialize important variables
 	char* in = new char[MAXLEN];
 	char* parin = new char[MAXLEN];
-	GStack stack;
+	//GStack stack;
 	GQueue queue;
 	
 	//Clear in and parin
@@ -58,7 +62,7 @@ int main() {
 	
 	//Clear temp. I know that I really should make a method for this but I'm running out of time on this project and I don't want to spend time figuring that out when this is only adds a few lines of code
 	for (int i = 0; i < MAXLEN; i++)
-		temp[i] = 0;
+		temp[i] = '\0';
 	
 	//Parse the input
 	for (int i = 0; i < strlen(in) + 1; i++) {
@@ -133,17 +137,16 @@ int main() {
 		else if (in[i] == 32 && wasSpace == false) {
 			//cout << "Space" << endl << "New phrase: " << temp << endl;
 			
-			stack.push_back(temp);
 			queue.enqueue(temp);
 			
 			//Append temp to the end of parin
-			//strcat(parin, temp);			
+			strcat(parin, temp);			
 			//Add a space at the end for viewing purposes
-			//strcat(parin, " ");
+			strcat(parin, " ");
 			
 			//Clear temp
 			for (int i = 0; i < MAXLEN; i++)
-				temp[i] = 0;
+				temp[i] = '\0';
 			
 			wasOp = false;
 			wasSpace = true;
@@ -154,45 +157,98 @@ int main() {
 		}
 		//If is null
 		else if (in[i] == 0) {
-			//cout << "Null" << endl;
-			//cout << "New phrase: " << temp << endl;
+			//cout << "Null" << endl << "New phrase: " << temp << endl;
 			
-			//Append temp to the end of parin
-			//strcat(parin, temp);
-			//strcat(parin, " ");
-			stack.push_back(temp);
 			queue.enqueue(temp);
 			
-			//Clear temp
-			for (int i = 0; i < MAXLEN; i++)
-				temp[i] = 0;
+			//Append temp to the end of parin
+			strcat(parin, temp);
+			strcat(parin, " ");
 			
-			j = 0;
-			k++;
-			
-			break;
 		}
 		//cout << endl;
 	}
 	
-	//cout << "Parin: " << endl;
-	//cout << parin << endl;
-	//cout << endl;
-	
+	/*
+	//Used this a while back to make sure GStack worked
 	cout << "Stack: " << endl;
 	for (int i = 0; i < k; i++) {
 		cout << stack.peek() << endl;
 		stack.pop();
 	}
 	cout << endl;
+	*/
 	
-	cout << "Queue: " << endl;
-	for (int i = 0; i < k; i++) {
-		cout << queue.dequeue() << endl;
-	}
+	//Display the infix that will be used
+	cout << "Infix term: " << endl << parin << endl << endl;
+	
+	//Convert to postfix
+	cout << "Postfix term: " << endl;
+	GQueue postfix = infixToPostfix(queue);
+	cout << postfix.dequeue() << endl;
+	
+	return 0;
 }
 
-GQueue
+GQueue infixToPostfix(GQueue in) {
+	/*
+	Default Priority Levels:
+	+, -: 1
+	*, /: 3
+	^: 5
+	
+	If operator is the first in the stack, put into the stack.
+	
+	If operator is not first in the stack, compare to most recent existing operator:
+	If the new operator is an open brace, treat the new operator as though it is at priority 7.
+	If the old operator is an open brace, treat the old operator as though it is at priority 0.
+	If the new operator is a close brace, treat the new operator as though it is priority 0.
+	If the old operator is higher priority, put the old operator into the output queue,
+	then test between the new operator and the next operator using the same process.
+	If the new operator is higher priority, put the new operator into the stack.
+	
+	If both operators are of the same priority:
+	If the operator is a ^, treat it as though the new one is priority 6,
+	If the operator is anything else, treat it as though the old one is (default priority + 1).
+	When the input queue is empty, put all operators in the output queue from newest to oldest.
+	 */
+	
+	GStack stack;
+	GQueue out;
+	 
+	while (true) {
+		
+		char* current;
+		current = in.dequeue();
+		
+		int newpriority = 0;
+		int oldpriority = 0;
+		
+		//If current isn't null or space
+		if (current != NULL && current[0] != '\0' && current[0] != 0) {
+			cout << "Current: " << current;
+			
+			//If current is a number
+			if (current[0] >= 48 && current[0] <= 57) {
+				cout << " - Number";
+				out.enqueue(current);
+			}
+		}
+		else {
+			cout << "Current: " << "Front" << endl;
+			strcpy(current, "FRONT");
+			//Dump all ops left in stack into the out queue
+			break;
+		}
+		
+		cout << endl;
+		
+	}
+	
+	return out;
+}
+
+
 
 //We do not speak of the code past this point
 /*

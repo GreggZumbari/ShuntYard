@@ -11,12 +11,9 @@ peek(): Returns a pointer to the item at the top of the stack
 #ifndef GSTACK_H
 #define GSTACK_H
 
-#include <iostream>
 #include <cstring>
 
 #define MAXLEN 10000
-
-using namespace std;
 
 class GStack {
 	public:
@@ -31,13 +28,14 @@ class GStack {
 		//Returns the char* component of the element at the top of the stack
 		char* peek();
 		
-	private:
+	protected:
 		struct GNode {
 			char* ele;
 			GNode* next;
 	
 			GNode() {
 				ele = new char[MAXLEN];
+				ele[0] = 0;
 			};
 		};
 		

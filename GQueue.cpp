@@ -5,7 +5,6 @@
 //Constructor
 GQueue::GQueue() {
 	front = new GNode();
-	strcpy(front->ele, "FRONT");
 	len = 0;
 }
 
@@ -46,16 +45,20 @@ void GQueue::enqueue(char* ele) {
 }
 
 char* GQueue::dequeue() {
-	if (front->next != NULL) {
+	if (front->next->ele[0] != '\0' && front->next->ele[0] != 0 && front->next->ele != NULL) {
 		//Grab a copy of the current first in queue for later.
 		GNode current = *front->next;
 		//cout << "Len: " << len << endl;
-		if (len >= 0) {
+		if (len >= 1) {
 			//Grab the second in queue
 			GNode* newFront = front->next;
 			//Move it up to the first in queue
 			front = newFront;
 			len--;
+		}
+		else {
+			current.ele[0] = 0;
+			return current.ele;
 		}
 		
 		//Return the copied ex-first in queue
